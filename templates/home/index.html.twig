@@ -4,9 +4,11 @@
 
 {% block body %}
 
-	<div>
-		<a href="{{ path('app_logout') }}">Logout</a>
-	</div>
+	{% if registrationMessage is defined %}
+		<div style='background-color:orange;'>{{ registrationMessage }}</div>
+	{% endif %}
+	
+
 	<div class="body-wrapper">
 		<h1>Welcome to the test site</h1>
 	</div>

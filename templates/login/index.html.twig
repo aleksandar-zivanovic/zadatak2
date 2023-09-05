@@ -4,6 +4,15 @@
 
 {% block body %}
 <div>
+
+    
+        <div style='background-color:lightgreen; color:white; margin-bottom:10px;'>
+            {% for message in app.flashes('success') %}
+                {{ message }}
+            {% endfor %}
+        </div>
+  
+
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
