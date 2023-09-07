@@ -9,11 +9,21 @@
 
         th, td {
            border:1px solid black;
+           padding: 3px;
         }
 
         th {
             background-color: lightblue;
         }
+
+        .background-lightgreen {
+            background-color: lightgreen;
+        }
+
+        .background-lightcoral {
+            background-color: lightcoral;
+        }
+
     </style>
 {% endblock %}
 
@@ -24,34 +34,44 @@
     
     {% include "home/_user_role_welcome.html.twig" %}
 
+    {% for deletedUserMessage in app.flashes('deletedUser') %}
+        <div class="background-lightgreen">
+            {{ deletedUserMessage }}
+        </div>
+    {% endfor %}
+    
+
     <table>
         <thead>
             <tr style="border:1px solid gray">
                 <th>Email</th>
                 <th>ID</th>
                 <th>Username</th>
+                <th>Role</th>
                 <th>Address</th>
                 <th>Country</th>
                 <th>Phone</th>
+                <th style="background-color:green; color:white">EDIT</th>
+                <th style="background-color:red; color:white">DELETE</th>
             </tr>
         </thead>
         <tbody>
-            <tr style="border:1px solid gray">
-                <td>Email</td>
-                <td>ID</td>
-                <td>Username</td>
-                <td>Address</td>
-                <td>Country</td>
-                <td>Phone</td>
-            </tr>
-            <tr style="border:1px solid gray">
-                <td>Email</td>
-                <td>ID</td>
-                <td>Username</td>
-                <td>Address</td>
-                <td>Country</td>
-                <td>Phone</td>
-            </tr>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.roles.0 }}</td>
+                    <td>{{ user.userprofile.username }}</td>
+                    <td>{{ user.userprofile.address }}</td>
+                    <td>{{ user.userprofile.country }}</td>
+                    <td>{{ user.userprofile.phone }}</td>
+                    <td class="background-lightgreen">EDIT</td>
+                    <td class="background-lightcoral">
+                        <a href="{{ path('app_delete_user', {id: user.id}) }}">DELETE</a>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
+
 {% endblock %}
