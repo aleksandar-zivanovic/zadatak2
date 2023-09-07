@@ -15,6 +15,7 @@
             <ul style='list-style-type: none;'>
                 <li style='display:inline; margin:0px 20px 5px 0px;'><a href="{{ path('app_home') }}">Home</a></li>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li style='display:inline; margin:0px 20px 5px 0px;'><a href="{{ path('app_role_page') }}">Administration</a></li>
                     <li style='display:inline; margin:0px 20px 5px 0px;'><a href="{{ path('app_logout') }}">Logout</a></li>
 
                     <div>

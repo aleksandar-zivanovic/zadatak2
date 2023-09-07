@@ -1,0 +1,17 @@
+<h3>Welcome
+	{{ app.user.email }}
+	{% for role in app.user.roles %}
+		{% if loop.index == 1 %}
+			<i>
+                {% if role == 'ROLE_ADMIN' %}
+                    Administrator
+                {% elseif role == 'ROLE_SALESPERSON' %}
+                    SalesPerson
+                {% elseif  role == 'ROLE_CLIENT' %}
+                    Client
+                {% endif %}
+            </i>
+		{% endif %}
+	{% endfor %}
+	!
+</h3>
