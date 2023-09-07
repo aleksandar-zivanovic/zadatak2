@@ -25,12 +25,12 @@ class HomeController extends AbstractController
         
         if(in_array('ROLE_ADMIN', $currentUser->getRoles())) {
             // dodati da se redirektuje sa ove stranice, ako nije admin
-            return $this->render('home/administrator-page.html.twig');
+            return $this->redirectToRoute('app_administrator');
         } elseif(in_array('ROLE_SALESPERSON', $currentUser->getRoles())) {
             // dodati da se redirektuje sa ove stranice, ako nije salersperson
-            return $this->render('home/salersperson-page.html.twig');
+            return $this->redirectToRoute('app_salesperson');
         } elseif(in_array('ROLE_CLIENT', $currentUser->getRoles())) {
-            return $this->render('home/client.html.twig');
+            return $this->redirectToRoute('app_client');
         }
     }
 }

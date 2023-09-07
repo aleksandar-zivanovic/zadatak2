@@ -1,0 +1,57 @@
+{% include "base.html.twig" %}
+
+{% block stylesheets %}
+    <style>
+        table {
+            border:3px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+           border:1px solid black;
+        }
+
+        th {
+            background-color: lightblue;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1>Administrator's Page</h1>
+
+    <div><a href="">Users</a></div>
+    
+    {% include "home/_user_role_welcome.html.twig" %}
+
+    <table>
+        <thead>
+            <tr style="border:1px solid gray">
+                <th>Email</th>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Address</th>
+                <th>Country</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="border:1px solid gray">
+                <td>Email</td>
+                <td>ID</td>
+                <td>Username</td>
+                <td>Address</td>
+                <td>Country</td>
+                <td>Phone</td>
+            </tr>
+            <tr style="border:1px solid gray">
+                <td>Email</td>
+                <td>ID</td>
+                <td>Username</td>
+                <td>Address</td>
+                <td>Country</td>
+                <td>Phone</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
