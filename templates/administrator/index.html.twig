@@ -1,4 +1,4 @@
-{% include "base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block stylesheets %}
     <style>
@@ -30,7 +30,7 @@
 {% block body %}
     <h1>Administrator's Page</h1>
 
-    <div><a href="">Users</a></div>
+    {% include "administrator/_admin_navigation.html.twig" %}
     
     {% include "home/_user_role_welcome.html.twig" %}
 
