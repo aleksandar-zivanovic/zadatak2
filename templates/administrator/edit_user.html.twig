@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+    <style>
+        table {
+            border:3px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+           border:1px solid black;
+           padding: 3px;
+        }
+
+        th {
+            background-color: lightblue;
+        }
+
+        .background-lightgreen {
+            background-color: lightgreen;
+        }
+
+        .background-lightcoral {
+            background-color: lightcoral;
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1>Edit User</h1>
+    
+    {% include "home/_user_role_welcome.html.twig" %}
+
+    {% for editedUserMessage in app.flashes('userEdited') %}
+        <div class="background-lightgreen">
+            {{ editedUserMessage }}
+        </div>
+    {% endfor %}
+
+    {{ form(form) }}
+    
+
+
+
+{% endblock %}
