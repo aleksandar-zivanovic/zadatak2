@@ -7,6 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\UserProfile;
+use App\Entity\Product;
 
 class AppFixtures extends Fixture
 {
@@ -109,6 +110,33 @@ class AppFixtures extends Fixture
         $profile6->setAddress('Marije Kiri 123456');
         $profile6->setCountry('Francuska');
         $manager->persist($profile6);
+
+        // products
+
+        $product1 = new Product();
+        $product1->setName('Monitor');
+        $product1->setPrice('30000');
+        $product1->setUnit('piece');
+        $manager->persist($product1);
+
+        $product2 = new Product();
+        $product2->setName('Apple');
+        $product2->setPrice('150');
+        $product2->setUnit('kg');
+        $manager->persist($product2);
+
+        $product3 = new Product();
+        $product3->setName('Coca Cola');
+        $product3->setPrice('200');
+        $product3->setUnit('bottle');
+        $manager->persist($product3);
+
+        
+        $product4 = new Product();
+        $product4->setName('Gas 95');
+        $product4->setPrice('187');
+        $product4->setUnit('liter');
+        $manager->persist($product4);
         
         $manager->flush();
     }

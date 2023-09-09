@@ -30,46 +30,35 @@
 {% block body %}
     <h1>Administrator's Page</h1>
 
-    <div><a href="">Users</a></div>
+    <div><a href="">Products</a></div>
     
     {% include "home/_user_role_welcome.html.twig" %}
 
-    {% for deletedUserMessage in app.flashes('deletedUser') %}
+    {% for productEdited in app.flashes('productEdited') %}
         <div class="background-lightgreen">
-            {{ deletedUserMessage }}
+            {{ productEdited }}
         </div>
     {% endfor %}
     
-
     <table>
         <thead>
             <tr style="border:1px solid gray">
-                <th>Email</th>
                 <th>ID</th>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Address</th>
-                <th>Country</th>
-                <th>Phone</th>
+                <th>Product name</th>
+                <th>Unit</th>
+                <th>Price</th>
                 <th style="background-color:green; color:white">EDIT</th>
-                <th style="background-color:red; color:white">DELETE</th>
             </tr>
         </thead>
         <tbody>
-            {% for user in users %}
+            {% for product in products %}
                 <tr>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.roles.0 }}</td>
-                    <td>{{ user.userprofile.username }}</td>
-                    <td>{{ user.userprofile.address }}</td>
-                    <td>{{ user.userprofile.country }}</td>
-                    <td>{{ user.userprofile.phone }}</td>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.unit }}</td>
+                    <td>{{ product.price }}</td>
                     <td class="background-lightgreen">
-                        <a href="{{ path('app_edit_user', {id: user.id} ) }}">EDIT</a>
-                    </td>
-                    <td class="background-lightcoral">
-                        <a href="{{ path('app_delete_user', {id: user.id}) }}">DELETE</a>
+                        <a href="{{ path('app_edit_product', {product: product.id} ) }}">EDIT</a>
                     </td>
                 </tr>
             {% endfor %}

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
 use App\Entity\User;
 use App\Entity\UserProfile;
 use App\Form\EditUserType;
@@ -13,6 +14,8 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\EditProductType;
+use App\Repository\ProductRepository;
 
 class AdministratorController extends AbstractController
 {
@@ -23,6 +26,16 @@ class AdministratorController extends AbstractController
 
         return $this->render('administrator/index.html.twig', [
             'users' => $users,
+        ]);
+    }
+
+    #[Route('/administrator/products', name: 'app_administrator_products')]
+    public function products(ProductRepository $productRepository): Response
+    {
+        $products = $productRepository->findAll();
+
+        return $this->render('administrator/product_administration.html.twig', [
+            'products' => $products,
         ]);
     }
 
@@ -54,7 +67,6 @@ class AdministratorController extends AbstractController
 
         return $this->render('administrator/edit_user.html.twig', [
             'form' => $form,
-            'user' => $user,
         ]);
     }
 
@@ -78,6 +90,25 @@ class AdministratorController extends AbstractController
         }
 
         return $this->render('administrator/edit_user.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/edit-product/{product}', name: 'app_edit_product')]
+    public function editProduct(Product $product, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $form = $this->createForm(EditProductType::class, $product);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $product = $form->getData();
+            $entityManager->persist($product);
+            $entityManager->flush();
+            $this->addFlash('productEdited', 'Product eith ID ' . $product->getId() . ' is edited!');
+            return $this->redirectToRoute('app_administrator_products');
+        }
+
+        return $this->render('administrator/edit_product.html.twig', [
             'form' => $form,
         ]);
     }
