@@ -16,9 +16,28 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\EditProductType;
 use App\Repository\ProductRepository;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_ADMIN')]
 class AdministratorController extends AbstractController
 {
+    public function isAdmin(): RedirectResponse
+    {
+        $currentUser = $this->getUser();
+        $roles = $currentUser->getRoles();
+        $isAdmin = false;
+
+        foreach ($roles as $value) {
+            if ($value === "ROLE_ADMIN") $isAdmin = true;
+        }
+
+        if ($isAdmin === true) {
+            return $this->redirectToRoute('app_administrator_products');
+        }
+
+        return $this->redirectToRoute('app_client');
+    }
+
     #[Route('/administrator', name: 'app_administrator')]
     public function index(UserRepository $userRepository): Response
     {

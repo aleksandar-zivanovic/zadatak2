@@ -14,6 +14,12 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig');
     }
 
+    #[Route('/access-denied', name: 'app_access_denied')]
+    public function accessDenied(): Response
+    {
+        return $this->render('home/access_denied.html.twig');
+    }
+
     #[Route('/role-page', name: 'app_role_page')]
     public function rolePage(): Response
     {
@@ -24,10 +30,8 @@ class HomeController extends AbstractController
         $currentUser = $this->getUser();
         
         if(in_array('ROLE_ADMIN', $currentUser->getRoles())) {
-            // dodati da se redirektuje sa ove stranice, ako nije admin
             return $this->redirectToRoute('app_administrator');
         } elseif(in_array('ROLE_SALESPERSON', $currentUser->getRoles())) {
-            // dodati da se redirektuje sa ove stranice, ako nije salersperson
             return $this->redirectToRoute('app_salesperson');
         } elseif(in_array('ROLE_CLIENT', $currentUser->getRoles())) {
             return $this->redirectToRoute('app_client');
