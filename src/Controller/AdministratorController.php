@@ -41,10 +41,12 @@ class AdministratorController extends AbstractController
     #[Route('/administrator', name: 'app_administrator')]
     public function index(UserRepository $userRepository): Response
     {
+        $currentUser = $this->getUser();
         $users = $userRepository->findAll();
 
         return $this->render('administrator/index.html.twig', [
             'users' => $users,
+            'currentUser' => $currentUser,
         ]);
     }
 
@@ -70,9 +72,11 @@ class AdministratorController extends AbstractController
         return $this->redirectToRoute('app_administrator');
     }
 
-    #[Route('/edit-user/{user}', name: 'app_edit_user')]
-    public function editUser(User $user, EntityManagerInterface $entityManager, Request $request): Response
+    #[Route('/edit-user/{id}', name: 'app_edit_user')]
+    public function editUser($id, EntityManagerInterface $entityManager, Request $request): Response
     {
+
+        $user = $entityManager->getRepository(User::class)->find($id);
         $form = $this->createForm(EditUserType::class, $user);
         $form->handleRequest($request);
 
@@ -80,7 +84,7 @@ class AdministratorController extends AbstractController
             $user = $form->getData();
             $entityManager->persist($user);
             $entityManager->flush();
-            $this->addFlash('userEdited', 'User data is edited!');
+            $this->addFlash('userEdited', 'User details are updated!');
             return $this->redirectToRoute('app_administrator');
         }
 
@@ -89,14 +93,11 @@ class AdministratorController extends AbstractController
         ]);
     }
 
-    #[Route('/edit-profile/{id}', name: 'app_edit_user')]
-    public function editProfile($id, EntityManagerInterface $entityManager, Request $request, UserRepository $userRepository): Response
+    #[Route('/edit-profile/{id}', name: 'app_edit_user_profile')]
+    public function editProfile($id, EntityManagerInterface $entityManager, Request $request): Response
     {
-        // $user = $entityManager->getRepository(User::class)->find($id);
-        $user = $userRepository->find($id);
+        $user = $entityManager->find(User::class, $id);
         $userProfile = $user->getUserProfile();
-        
-        // dd($userProfile);
         $form = $this->createForm(ProfileType::class, $userProfile);
         $form->handleRequest($request);
 
@@ -104,7 +105,7 @@ class AdministratorController extends AbstractController
             $userProfile = $form->getData();
             $entityManager->persist($userProfile);
             $entityManager->flush();
-            $this->addFlash('userEdited', 'Profile is edited!');
+            $this->addFlash('userProfileEdited', 'User secondary information is edited!');
             return $this->redirectToRoute('app_administrator');
         }
 

@@ -1,45 +1,15 @@
 {% extends "base.html.twig" %}
 
 {% block stylesheets %}
-    <style>
-        table {
-            border:3px solid black;
-            border-collapse: collapse;
-        }
-
-        th, td {
-           border:1px solid black;
-           padding: 3px;
-        }
-
-        th {
-            background-color: lightblue;
-        }
-
-        .background-lightgreen {
-            background-color: lightgreen;
-        }
-
-        .background-lightcoral {
-            background-color: lightcoral;
-        }
-
-    </style>
+    {% include "administrator/_styles.html.twig" %}
 {% endblock %}
 
 {% block body %}
     <h1>Administrator's Page</h1>
 
     {% include "administrator/_admin_navigation.html.twig" %}
-    
     {% include "home/_user_role_welcome.html.twig" %}
-
-    {% for deletedUserMessage in app.flashes('deletedUser') %}
-        <div class="background-lightgreen">
-            {{ deletedUserMessage }}
-        </div>
-    {% endfor %}
-    
+    {% include "administrator/_flashes.html.twig" %}
 
     <table>
         <thead>
@@ -51,7 +21,7 @@
                 <th>Address</th>
                 <th>Country</th>
                 <th>Phone</th>
-                <th style="background-color:green; color:white">EDIT</th>
+                <th class="background-green color-white">EDIT</th>
                 <th style="background-color:red; color:white">DELETE</th>
             </tr>
         </thead>
@@ -65,10 +35,10 @@
                     <td>{{ user.userprofile.address }}</td>
                     <td>{{ user.userprofile.country }}</td>
                     <td>{{ user.userprofile.phone }}</td>
-                    <td class="background-lightgreen">
+                    <td class="background-lightgreen edit">
                         <a href="{{ path('app_edit_user', {id: user.id} ) }}">EDIT</a>
                     </td>
-                    <td class="background-lightcoral">
+                    <td class="background-coral delete">
                         <a href="{{ path('app_delete_user', {id: user.id}) }}">DELETE</a>
                     </td>
                 </tr>
