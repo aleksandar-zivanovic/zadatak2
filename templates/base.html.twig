@@ -1,42 +1,63 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        <div class="wrapper">
-            <ul style='list-style-type: none;'>
-                <li style='display:inline; margin:0px 20px 5px 0px;'><a href="{{ path('app_home') }}">Home</a></li>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li style='display:inline; margin:0px 20px 5px 0px;'><a href="{{ path('app_role_page') }}">Administration</a></li>
-                    <li style='display:inline; margin:0px 20px 5px 0px;'><a href="{{ path('app_logout') }}">Logout</a></li>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
+	<body>
+		<nav class="navigation_wrapper">
 
-                    <div>
-                        <h3>{{ app.user.email }} is 
-                            {% for role in app.user.roles %}
-                                {% if loop.index == 1 %}
-                                    <i>{{ role }}</i>
-                                {% endif %}
-                            {% endfor %}
-                        !</h3>
-                    </div>
-                {% else %}
+            <div class="logo">
+                 <img src="/img/logo.svg" alt="Site Logo" width="50" height="50"> 
+            </div>
 
-                    <li style='display:inline; margin:0px 20px 5px 0px;'><a href="{{ path('app_login') }}">Login</a></li>
-                    <li style='display:inline; margin:0px 20px 5px 0px;'><a href="{{ path('app_register') }}">Register</a></li>
-                {% endif %}
-            </ul>
-        </div>
+			<ul class="navigation_list">
+				<li class="navigation_link">
+					<a href="{{ path('app_home') }}">Home</a>
+				</li>
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					<li class="navigation_link">
+						<a href="{{ path('app_role_page') }}">Administration</a>
+					</li>
+					<li class="navigation_link">
+						<a href="{{ path('app_logout') }}">Logout</a>
+					</li>
+				{% else %}
+					<li class="navigation_link">
+						<a href="{{ path('app_login') }}">Login</a>
+					</li>
+					<li class="navigation_link">
+						<a href="{{ path('app_register') }}">Register</a>
+					</li>
+				{% endif %}
+			</ul>
 
-        {% block body %}{% endblock %}
-    </body>
-</html>
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				<div class="welcome">
+					<h3>{{ app.user.email }}
+						is
+						{% for role in app.user.roles %}
+							{% if loop.index == 1 %}
+								<i>{{ role }}</i>
+							{% endif %}
+						{% endfor %}
+						!</h3>
+				</div>
+			{% endif %}
+		</nav>
+
+		<main class="main"> {% block body %}{% endblock %}
+			</main>
+		</body>
+	</html>
