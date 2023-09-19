@@ -54,9 +54,11 @@ class AdministratorController extends AbstractController
     public function products(ProductRepository $productRepository): Response
     {
         $products = $productRepository->findAll();
+        $currentUser = $this->getUser();
 
         return $this->render('administrator/product_administration.html.twig', [
             'products' => $products,
+            'currentUser' => $currentUser,
         ]);
     }
 
