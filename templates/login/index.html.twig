@@ -1,34 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LoginController!{% endblock %}
+{% block title %}Login Page{% endblock %}
 
 {% block body %}
-<div>
+<h1>Login Page</h1>
 
-    
-        <div style='background-color:lightgreen; color:white; margin-bottom:10px;'>
-            {% for message in app.flashes('success') %}
-                {{ message }}
-            {% endfor %}
-        </div>
-  
+<div>
+    <div style='background-color:lightgreen; color:white; margin-bottom:10px;'>
+        {% for message in app.flashes('success') %}
+            {{ message }}
+        {% endfor %}
+    </div>
 
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ lastUsername }}">
+    <form action="{{ path('app_login') }}" method="post" class="form_wrapper">
+        <label for="username" class="form_label">Email:</label>
+        <input type="text" id="username" name="_username" value="{{ lastUsername }}" class="form_text">
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password">
+        <label for="password" class="form_label">Password:</label>
+        <input type="password" id="password" name="_password" class="form_text">
 
         <input type="hidden" name="_target_path" value="{{ path('app_home') }}">
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         
-
-        <button type="submit">login</button>
+        <button type="submit" class="btn">login</button>
     </form>
 </div>
 {% endblock %}

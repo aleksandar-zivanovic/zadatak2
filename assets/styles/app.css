@@ -6,6 +6,10 @@ body {
     @apply bg-gray-300;
 }
 
+h1 {
+    @apply text-4xl;
+}
+
 .navigation_wrapper {
     @apply bg-yellow-200 flex justify-center mb-4 p-2 w-full;
 }
@@ -15,7 +19,6 @@ body {
 }
 
 .navigation_link {
-    /* style='display:inline; margin:0px 20px 5px 0px;' */
     @apply inline-block mx-5 my-1 p-2 rounded-xl bg-transparent hover:bg-blue-500 hover:text-white hover:bg-opacity-75 font-semibold transition-all duration-300;
 }
 
@@ -27,6 +30,22 @@ body {
     @apply flex relative right-[15%];
 }
 
-/* .main {
-    @apply ;
-} */
+.main {
+    @apply mx-20;
+}
+
+.form_wrapper {
+    @apply border border-gray-700 p-4 my-4 bg-slate-300 shadow-inner shadow-gray-400;
+}
+
+.form_label {
+    @apply block my-1;
+}
+
+.form_text {
+    @apply block bg-yellow-50 hover:bg-green-50 mb-1 rounded-lg;
+}
+
+.btn {
+    @apply block rounded-lg border border-yellow-200 hover:bg-blue-500 hover:text-white my-3 p-1 w-full text-2xl tracking-wider shadow-md shadow-blue-400;
+}

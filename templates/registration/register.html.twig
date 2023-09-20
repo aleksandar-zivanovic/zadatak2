@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Registration Page{% endblock %}
 
 {% block body %}
     {% for flash_error in app.flashes('verify_email_error') %}
@@ -11,12 +11,15 @@
 
     {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    {{ form_start(registrationForm, {'attr': {'class': 'form_wrapper'}}) }}
+        {{ form_label(registrationForm.email, 'Enter email address:', {'label_attr': {'class': 'form_label'}}) }}
+        {{ form_widget(registrationForm.email, {'attr': {'class': 'form_text'}}) }}
+
+        {{ form_label(registrationForm.plainPassword, 'Enter your password:', {'label_attr': {'class':'form_label'}}) }}
+        {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form_text'}}) }}
+
+        {{ form_label(registrationForm.agreeTerms, 'Agree to Terms', {'attr': {'class':'mr-2'}}) }}
+        {{ form_widget(registrationForm.agreeTerms) }}
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
