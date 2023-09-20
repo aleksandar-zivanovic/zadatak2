@@ -1,12 +1,12 @@
 <div class="flashes">
     {% for deletedUserMessage in app.flashes('deletedUser') %}
-        <div class="background-lightgreen">
+        <div class="bg-[lightgreen]">
             {{ deletedUserMessage }}
         </div>
     {% endfor %}
 
     {% for editedUserMessage in app.flashes('userEdited') %}
-        <div class="background-lightgreen">
+        <div class="bg-[lightgreen]">
             {{ editedUserMessage }}
         </div>
     {% endfor %}

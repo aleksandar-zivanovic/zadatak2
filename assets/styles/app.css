@@ -49,3 +49,35 @@ h1 {
 .btn {
     @apply block rounded-lg border border-yellow-200 hover:bg-blue-500 hover:text-white my-3 p-1 w-full text-2xl tracking-wider shadow-md shadow-blue-400;
 }
+
+.table {
+    @apply border-[3px] border-solid border-black border-collapse my-2 w-full;
+}
+
+.table th, .table td {
+    @apply border border-black p-[3px];
+}
+
+.table th {
+    @apply bg-[lightblue];
+}
+
+.table_edit_th {
+    @apply !bg-green-600 text-white;
+}
+
+.table_delete_th {
+    @apply !bg-red-600 text-white;
+}
+
+.table_delete_btn {
+    @apply bg-[coral] hover:bg-red-200 text-center;
+}
+
+.table_edit_btn {
+    @apply bg-[lightgreen] hover:bg-green-100 text-center;
+}
+
+.flashes > div {
+    @apply mb-[3px] p-[2px];
+}

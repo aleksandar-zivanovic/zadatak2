@@ -1,8 +1,8 @@
 {% extends "base.html.twig" %}
 
-{% block stylesheets %}
+{# {% block stylesheets %}
     {% include "administrator/_styles.html.twig" %}
-{% endblock %}
+{% endblock %} #}
 
 {% block body %}
     <h1>Administrator's Page</h1>
@@ -11,9 +11,9 @@
     {% include "home/_user_role_welcome.html.twig" %}
     {% include "administrator/_flashes.html.twig" %}
 
-    <table>
+    <table class="table">
         <thead>
-            <tr style="border:1px solid gray">
+            <tr>
                 <th>Email</th>
                 <th>ID</th>
                 <th>Username</th>
@@ -21,8 +21,8 @@
                 <th>Address</th>
                 <th>Country</th>
                 <th>Phone</th>
-                <th class="background-green color-white">EDIT</th>
-                <th style="background-color:red; color:white">DELETE</th>
+                <th class="table_edit_th">EDIT</th>
+                <th class="table_delete_th">DELETE</th>
             </tr>
         </thead>
         <tbody>
@@ -35,10 +35,10 @@
                     <td>{{ user.userprofile.address }}</td>
                     <td>{{ user.userprofile.country }}</td>
                     <td>{{ user.userprofile.phone }}</td>
-                    <td class="background-lightgreen edit">
+                    <td class="table_edit_btn">
                         <a href="{{ path('app_edit_user', {id: user.id} ) }}">EDIT</a>
                     </td>
-                    <td class="background-coral delete">
+                    <td class="table_delete_btn">
                         <a href="{{ path('app_delete_user', {id: user.id}) }}">DELETE</a>
                     </td>
                 </tr>
