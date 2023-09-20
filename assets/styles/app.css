@@ -62,6 +62,10 @@ h1 {
     @apply bg-[lightblue];
 }
 
+.table tr {
+    @apply hover:bg-gray-200;
+}
+
 .table_edit_th {
     @apply !bg-green-600 text-white;
 }
