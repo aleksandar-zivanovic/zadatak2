@@ -1,6 +1,6 @@
-{% include "base.html.twig" %}
+{% extends "base.html.twig" %}
 
-{% block stylesheets %}
+{# {% block stylesheets %}
     <style>
         table {
             border:3px solid black;
@@ -25,40 +25,34 @@
         }
 
     </style>
-{% endblock %}
+{% endblock %} #}
 
 {% block body %}
     <h1>Administrator's Page</h1>
 
     {% include "administrator/_admin_navigation.html.twig" %}
-    
     {% include "home/_user_role_welcome.html.twig" %}
-
-    {% for productEdited in app.flashes('productEdited') %}
-        <div class="background-lightgreen">
-            {{ productEdited }}
-        </div>
-    {% endfor %}
+    {% include "administrator/_flashes.html.twig" %}
     
-    <table>
+    <table class="table">
         <thead>
-            <tr style="border:1px solid gray">
+            <tr>
                 <th>ID</th>
                 <th>Product name</th>
                 <th>Unit</th>
                 <th>Price</th>
-                <th style="background-color:green; color:white">EDIT</th>
+                <th class="table_edit_th">EDIT</th>
             </tr>
         </thead>
         <tbody>
             {% for product in products %}
                 <tr>
-                    <td>{{ product.id }}</td>
+                    <td class="text-center">{{ product.id }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.unit }}</td>
                     <td>{{ product.price }}</td>
-                    <td class="background-lightgreen">
-                        <a href="{{ path('app_edit_product', {product: product.id} ) }}">EDIT</a>
+                    <td class="table_edit_btn">
+                        <a href="{{ path('app_edit_product', {product: product.id} ) }}" class="block">EDIT</a>
                     </td>
                 </tr>
             {% endfor %}

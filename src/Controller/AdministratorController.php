@@ -126,7 +126,7 @@ class AdministratorController extends AbstractController
             $product = $form->getData();
             $entityManager->persist($product);
             $entityManager->flush();
-            $this->addFlash('productEdited', 'Product eith ID ' . $product->getId() . ' is edited!');
+            $this->addFlash('productEdited', 'Product with ID ' . $product->getId() . ' is edited!');
             return $this->redirectToRoute('app_administrator_products');
         }
 

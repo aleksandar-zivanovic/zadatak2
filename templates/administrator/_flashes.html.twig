@@ -10,4 +10,10 @@
             {{ editedUserMessage }}
         </div>
     {% endfor %}
+
+    {% for productEdited in app.flashes('productEdited') %}
+        <div class="bg-[lightgreen]">
+            {{ productEdited }}
+        </div>
+    {% endfor %}
 </div>

@@ -36,10 +36,10 @@
                     <td>{{ user.userprofile.country }}</td>
                     <td>{{ user.userprofile.phone }}</td>
                     <td class="table_edit_btn">
-                        <a href="{{ path('app_edit_user', {id: user.id} ) }}">EDIT</a>
+                        <a href="{{ path('app_edit_user', {id: user.id} ) }}" class="block">EDIT</a>
                     </td>
                     <td class="table_delete_btn">
-                        <a href="{{ path('app_delete_user', {id: user.id}) }}">DELETE</a>
+                        <a href="{{ path('app_delete_user', {id: user.id}) }}" class="block">DELETE</a>
                     </td>
                 </tr>
             {% endfor %}
