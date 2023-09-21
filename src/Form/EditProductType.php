@@ -6,7 +6,6 @@ use App\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class EditProductType extends AbstractType
 {
@@ -16,7 +15,6 @@ class EditProductType extends AbstractType
             ->add('name')
             ->add('price')
             ->add('unit')
-            ->add('save', SubmitType::class)
         ;
     }
 
