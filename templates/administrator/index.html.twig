@@ -1,11 +1,11 @@
 {% extends "base.html.twig" %}
 
-{% block body %}
-    <h1>Administrator's Page</h1>
+{% set pageName = "Administrator's Page" %}
 
-    {% include "administrator/_admin_navigation.html.twig" %}
-    {% include "home/_user_role_welcome.html.twig" %}
-    {% include "administrator/_flashes.html.twig" %}
+{% block title %} {{ pageName }} {% endblock %}
+
+{% block body %}
+    {% include "administrator/_admin_navigation.html.twig" with { pageName: pageName } %}
 
     <table class="table">
         <thead>

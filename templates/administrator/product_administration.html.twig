@@ -1,35 +1,36 @@
 {% extends "base.html.twig" %}
 
+{% set pageName = "Products Page" %}
+
+{% block title %}
+	{{ pageName }}
+{% endblock %}
+
 {% block body %}
-    <h1>Administrator's Page</h1>
+	{% include "administrator/_admin_navigation.html.twig" with { pageName: pageName } %}
 
-    {% include "administrator/_admin_navigation.html.twig" %}
-    {% include "home/_user_role_welcome.html.twig" %}
-    {% include "administrator/_flashes.html.twig" %}
-    
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Product name</th>
-                <th>Unit</th>
-                <th>Price</th>
-                <th class="table_edit_th">EDIT</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-                <tr>
-                    <td class="text-center">{{ product.id }}</td>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.unit }}</td>
-                    <td>{{ product.price }}</td>
-                    <td class="table_edit_btn">
-                        <a href="{{ path('app_edit_product', {product: product.id} ) }}" class="block">EDIT</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Product name</th>
+				<th>Unit</th>
+				<th>Price</th>
+				<th class="table_edit_th">EDIT</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for product in products %}
+				<tr>
+					<td class="text-center">{{ product.id }}</td>
+					<td>{{ product.name }}</td>
+					<td>{{ product.unit }}</td>
+					<td>{{ product.price }}</td>
+					<td class="table_edit_btn">
+						<a href="{{ path('app_edit_product', {product: product.id} ) }}" class="block">EDIT</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 {% endblock %}
