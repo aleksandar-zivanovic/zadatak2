@@ -1,40 +1,34 @@
 {% extends "base.html.twig" %}
 
-{% block stylesheets %}
-    <style>
-        table {
-            border:3px solid black;
-            border-collapse: collapse;
-        }
-
-        th, td {
-           border:1px solid black;
-           padding: 3px;
-        }
-
-        th {
-            background-color: lightblue;
-        }
-
-        .background-lightgreen {
-            background-color: lightgreen;
-        }
-
-        .background-lightcoral {
-            background-color: lightcoral;
-        }
-
-    </style>
-{% endblock %}
-
 {% block body %}
     <h1>Edit User</h1>
     
-    {% include "home/_user_role_welcome.html.twig" %}
+    {{ form_errors(form) }}
 
-    {{ form(form) }}
-    
+    {{ form_start(form, {'attr': {'class': 'form_wrapper'}}) }}
+        {{ form_label(form.email, 'Email address:', {'label_attr': {'class': 'form_label'}}) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form_text'}}) }}
 
+        {{ form_label(form.roles, 'Role:', {'label_attr': {'class':'form_label'}}) }}
+        {{ form_widget(form.roles, {'attr': {'class': 'form_text'}}) }}
+
+        {{ form_label(form.isVerified, 'Verified:', {'label_attr': {'class':'mr-2'}}) }}
+        {{ form_widget(form.isVerified) }}
+
+        {{ form_label(form.userProfile.userName, 'User name:', {'label_attr': {'class':'form_label'}}) }}
+        {{ form_widget(form.userProfile.userName, {'attr': {'class': 'form_text'}}) }}
+
+        {{ form_label(form.userProfile.address, 'Address:', {'label_attr': {'class':'form_label'}}) }}
+        {{ form_widget(form.userProfile.address, {'attr': {'class': 'form_text'}}) }}
+
+        {{ form_label(form.userProfile.phone, 'Phone number:', {'label_attr': {'class':'form_label'}}) }}
+        {{ form_widget(form.userProfile.phone, {'attr': {'class': 'form_text'}}) }}
+
+        {{ form_label(form.userProfile.country, 'Country:', {'label_attr': {'class':'form_label'}}) }}
+        {{ form_widget(form.userProfile.country, {'attr': {'class': 'form_text'}}) }}
+
+        <button type="submit" name="form.save" class="btn">Apply User Details</button>
+    {{ form_end(form) }}
 
 
 {% endblock %}

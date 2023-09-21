@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class EditUserType extends AbstractType
 {
@@ -24,10 +25,10 @@ class EditUserType extends AbstractType
                     'Admin' => 'ROLE_ADMIN',
                 ],
             ])
-            ->add('password')
+            ->add('password', HiddenType::class)
             ->add('isVerified')
             ->add('userProfile', ProfileType::class)
-            ->add('save', SubmitType::class)
+            // ->add('save', SubmitType::class)
         ;
 
         /*
