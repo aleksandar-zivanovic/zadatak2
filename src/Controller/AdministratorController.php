@@ -119,7 +119,7 @@ class AdministratorController extends AbstractController
     #[Route('/edit-product/{product}', name: 'app_edit_product')]
     public function editProduct(Product $product, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $form = $this->createForm(EditProductType::class, $product);
+        $form = $this->createForm(EditProductType::class, $product, ['product_id' => $product->getId()]);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {

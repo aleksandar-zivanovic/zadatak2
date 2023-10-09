@@ -16,6 +16,9 @@ class Product
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $category = null;
+
     #[ORM\Column(length: 10)]
     private ?string $price = null;
 
@@ -35,6 +38,18 @@ class Product
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }
