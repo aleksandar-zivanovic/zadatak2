@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
@@ -26,6 +28,14 @@ class Order
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\OneToMany(mappedBy: 'RelatedOrder', targetEntity: OrderedItem::class)]
+    private Collection $orderedItems;
+
+    public function __construct()
+    {
+        $this->orderedItems = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,6 +86,36 @@ class Order
     public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OrderedItem>
+     */
+    public function getOrderedItems(): Collection
+    {
+        return $this->orderedItems;
+    }
+
+    public function addOrderedItem(OrderedItem $orderedItem): static
+    {
+        if (!$this->orderedItems->contains($orderedItem)) {
+            $this->orderedItems->add($orderedItem);
+            $orderedItem->setRelatedOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderedItem(OrderedItem $orderedItem): static
+    {
+        if ($this->orderedItems->removeElement($orderedItem)) {
+            // set the owning side to null (unless already changed)
+            if ($orderedItem->getRelatedOrder() === $this) {
+                $orderedItem->setRelatedOrder(null);
+            }
+        }
 
         return $this;
     }
