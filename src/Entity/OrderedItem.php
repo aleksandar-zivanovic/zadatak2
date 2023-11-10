@@ -15,7 +15,7 @@ class OrderedItem
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderedItems')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'relatedOrder', referencedColumnName: 'id', nullable: false)]
     private ?Order $relatedOrder = null;
 
     #[ORM\ManyToOne(inversedBy: 'orderedItems')]
@@ -23,7 +23,7 @@ class OrderedItem
     private ?Product $product = null;
 
     #[ORM\Column]
-    private ?int $quantity = null;
+    public ?int $quantity = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;

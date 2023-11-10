@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
+use App\Entity\OrderedItem;
 use App\Entity\Product;
 use App\Entity\User;
 use App\Entity\UserProfile;
@@ -15,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\EditProductType;
+use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -46,6 +49,46 @@ class AdministratorController extends AbstractController
 
         return $this->render('administrator/index.html.twig', [
             'users' => $users,
+            'currentUser' => $currentUser,
+        ]);
+    }
+
+    #[Route('/administrator/orders', name: 'app_administrator_orders')]
+    public function orders(OrderRepository $orderRepository): Response
+    {
+        $orders = $orderRepository->allOrdersWithFullCustomerDetails();
+        $currentUser = $this->getUser();
+
+        // foreach ($orders as $key => $value) {
+        //     dd($value->orderedItems[0]->quantity);
+        // }
+
+        return $this->render('administrator/orders_administration.html.twig', [
+            'orders' => $orders,
+            'currentUser' => $currentUser,
+        ]);
+    }
+
+
+
+    #[Route('/administrator/orders/{id}', name: 'app_administrator_order_details')]
+    public function orderDetails(
+        $id, 
+        OrderRepository $orderRepository,
+        EntityManagerInterface $entityManager
+        ): Response
+    {
+        $order = $orderRepository->find(1);
+        dd($order);
+
+        // $orderDetails = $entityManager->getRepository(Order::class)->find(1);
+        // dd($id);
+
+        // $orders = $orderRepository->allOrdersWithFullCustomerDetails();
+        $currentUser = $this->getUser();
+        return $this->render('administrator/order_details_administration.html.twig', [
+            // 'order' => $order,
+            // 'orders' => $orders,
             'currentUser' => $currentUser,
         ]);
     }
@@ -134,4 +177,26 @@ class AdministratorController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    // app_edit_order
+    #[Route('/edit-order/{order}', name: 'app_edit_order')]
+    public function editOrder(Order $order, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        dd($order);
+        // $form = $this->createForm(EditProductType::class, $product, ['product_id' => $product->getId()]);
+        // $form->handleRequest($request);
+        
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $product = $form->getData();
+        //     $entityManager->persist($product);
+        //     $entityManager->flush();
+        //     $this->addFlash('productEdited', 'Product with ID ' . $product->getId() . ' is edited!');
+        //     return $this->redirectToRoute('app_administrator_products');
+        // }
+
+        return $this->render('administrator/edit_order.html.twig', [
+            // 'form' => $form,
+        ]);
+    }
+
 }

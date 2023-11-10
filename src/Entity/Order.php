@@ -29,8 +29,8 @@ class Order
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\OneToMany(mappedBy: 'RelatedOrder', targetEntity: OrderedItem::class)]
-    private Collection $orderedItems;
+    #[ORM\OneToMany(mappedBy: 'relatedOrder', targetEntity: OrderedItem::class)]
+    public Collection $orderedItems;
 
     public function __construct()
     {

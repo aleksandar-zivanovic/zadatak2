@@ -21,6 +21,18 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
+    // all orders with their customers and customer profile details
+       public function allOrdersWithFullCustomerDetails(): array
+   {
+       return $this->createQueryBuilder('o')
+           ->select('o', 'u', 'up', 'oi')
+           ->leftJoin('o.customer', 'u')
+           ->leftJoin('u.userProfile', 'up')
+           ->join('o.orderedItems', 'oi')
+           ->getQuery()
+           ->getResult();
+   }
+
 //    /**
 //     * @return Order[] Returns an array of Order objects
 //     */

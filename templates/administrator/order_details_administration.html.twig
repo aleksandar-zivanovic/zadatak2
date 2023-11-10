@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% set pageName = "Orders Page" %}
+
+{% block title %}
+	{{ pageName }}
+{% endblock %}
+
+{% block body %}
+	{% include "administrator/_admin_navigation.html.twig" with { pageName: pageName } %}
+
+	details
+{% endblock %}

@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Order;
+use App\Entity\OrderedItem;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\User;
@@ -121,24 +123,24 @@ class AppFixtures extends Fixture
         $manager->persist($product1);
 
         $product2 = new Product();
-        $product2->setName('Apple');
-        $product2->setCategory('Fruit');
-        $product2->setPrice('150');
-        $product2->setUnit('kg');
+        $product2->setName('LG 27" IPS 27UP650-W Monitor');
+        $product2->setCategory('Monitor');
+        $product2->setPrice('50000');
+        $product2->setUnit('piece');
         $manager->persist($product2);
 
         $product3 = new Product();
-        $product3->setName('Coca Cola');
-        $product3->setCategory('Beverage');
-        $product3->setPrice('200');
-        $product3->setUnit('bottle');
+        $product3->setName('LG 31.5" IPS 32UN650P-W Monitor');
+        $product3->setCategory('Monitor');
+        $product3->setPrice('51000');
+        $product3->setUnit('piece');
         $manager->persist($product3);
         
         $product4 = new Product();
-        $product4->setName('Gas 95');
-        $product4->setCategory('Gasoline');
-        $product4->setPrice('187');
-        $product4->setUnit('liter');
+        $product4->setName('LG OLED55C21LA SMART');
+        $product4->setCategory('tv');
+        $product4->setPrice('150000');
+        $product4->setUnit('piece');
         $manager->persist($product4);
 
         $product5 = new Product();
@@ -148,14 +150,85 @@ class AppFixtures extends Fixture
         $product5->setUnit('bottle');
         $manager->persist($product5);
 
-        $product5 = new Product();
-        $product5->setName('Sprite');
-        $product5->setCategory('Beverage');
-        $product5->setPrice('190');
-        $product5->setUnit('bottle');
-        $manager->persist($product5);
+        $product6 = new Product();
+        $product6->setName('Sprite');
+        $product6->setCategory('Beverage');
+        $product6->setPrice('190');
+        $product6->setUnit('bottle');
+        $manager->persist($product6);
         
+        $product7 = new Product();
+        $product7->setName('Apple');
+        $product7->setCategory('Fruit');
+        $product7->setPrice('150');
+        $product7->setUnit('kg');
+        $manager->persist($product7);
         
+        $product8 = new Product();
+        $product8->setName('Orange');
+        $product8->setCategory('Fruit');
+        $product8->setPrice('180');
+        $product8->setUnit('kg');
+        $manager->persist($product8);
+
+        // orders
+
+        $order1 = new Order();
+        $orderedItem1 = new OrderedItem();
+        $orderedItem1->setRelatedOrder($order1);
+        $orderedItem1->setProduct($product1);
+        $orderedItem1->setQuantity(3);
+        $orderedItem1->setCreatedAt(new \DateTime());
+        $orderedItem1->setPricePerPiece($product1->getPrice());
+        $order1->setCustomer($user5);
+        $order1->setComment("This is a comment for order 1");
+        $order1->setStatus("processing");
+        $order1->setCreatedAt(new \DateTimeImmutable());
+        $manager->persist($orderedItem1);
+        $manager->persist($order1);
+
+        $order2 = new Order();
+        $orderedItem2 = new OrderedItem();
+        $orderedItem2->setRelatedOrder($order2);
+        $orderedItem2->setProduct($product4);
+        $orderedItem2->setQuantity(1);
+        $orderedItem2->setCreatedAt(new \DateTime());
+        $orderedItem2->setPricePerPiece($product4->getPrice());
+        $orderedItem3 = new OrderedItem();
+        $orderedItem3->setRelatedOrder($order2);
+        $orderedItem3->setProduct($product7);
+        $orderedItem3->setQuantity(8);
+        $orderedItem3->setCreatedAt(new \DateTime());
+        $orderedItem3->setPricePerPiece($product7->getPrice());
+        $order2->setCustomer($user6);
+        $order2->setComment("This is a comment for order 2");
+        $order2->setStatus("processing");
+        $order2->setCreatedAt(new \DateTimeImmutable());
+        $manager->persist($orderedItem2);
+        $manager->persist($orderedItem3);
+        $manager->persist($order2);
+
+        $order3 = new Order();
+        $orderedItem4 = new OrderedItem();
+        $orderedItem4->setRelatedOrder($order3);
+        $orderedItem4->setProduct($product7);
+        $orderedItem4->setQuantity(1);
+        $orderedItem4->setCreatedAt(new \DateTime());
+        $orderedItem4->setPricePerPiece($product4->getPrice());
+        $orderedItem5 = new OrderedItem();
+        $orderedItem5->setRelatedOrder($order3);
+        $orderedItem5->setProduct($product8);
+        $orderedItem5->setQuantity(2);
+        $orderedItem5->setCreatedAt(new \DateTime());
+        $orderedItem5->setPricePerPiece($product7->getPrice());
+        $order3->setCustomer($user5);
+        $order3->setComment("This is a comment for order 3");
+        $order3->setStatus("processing");
+        $order3->setCreatedAt(new \DateTimeImmutable());
+        $manager->persist($orderedItem4);
+        $manager->persist($orderedItem5);
+        $manager->persist($order3);
+
         $manager->flush();
     }
 }

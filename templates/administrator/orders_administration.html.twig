@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{% set pageName = "Orders Page" %}
+
+{% block title %}
+	{{ pageName }}
+{% endblock %}
+
+{% block body %}
+	{% include "administrator/_admin_navigation.html.twig" with { pageName: pageName } %}
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>C. ID</th>
+				<th>C. Name</th>
+				<th>C. Address</th>
+				<th>C. Phone</th>
+				<th>Comment</th>
+				<th>Status</th>
+				<th>Created at</th>
+				<th>Total</th>
+				<th class="table_edit_th">EDIT</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for order in orders %}
+				<tr>
+					<td class="text-center">{{ order.id }}</td>
+					<td>{{ order.customer.id }}</td>
+					<td>{{ order.customer.userProfile.userName }}</td>
+					<td>{{ order.customer.userProfile.address }}, {{ order.customer.userProfile.country }}</td>
+					<td>{{ order.customer.userProfile.phone }}</td>
+					<td>{{ order.comment }}</td>
+					<td>{{ order.status }}</td>
+					<td>{{ order.createdAt|date("m/d/Y") }}</td>
+					<td>{{ order.orderedItems.0.quantity * order.orderedItems.0.pricePerPiece }}</td>
+					<td class="table_edit_btn">
+						<a href="{{ path('app_edit_order', {order: order.id} ) }}" class="block">EDIT</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
