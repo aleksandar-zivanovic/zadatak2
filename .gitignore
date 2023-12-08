@@ -15,3 +15,8 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+###> test files ###
+/src/Controller/TestController.php
+/templates/test
+###< test files ###

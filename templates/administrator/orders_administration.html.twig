@@ -9,6 +9,15 @@
 {% block body %}
 	{% include "administrator/_admin_navigation.html.twig" with { pageName: pageName } %}
 
+{# 
+	Dodati u base.html.twig kao opciju za ucitavanje razlicitih css i js fajlova, tako da kod moze da bude podeljen u vise vajlova, a ne sve u jedan 
+#}
+	{# {% if 'administrator/orders' in path(app.request.attributes.get('_route'))  %}
+		to je ta strana
+	{% else %}
+		nije ta strana!
+	{% endif %} #}
+
 	<table class="table">
 		<thead>
 			<tr>
@@ -25,22 +34,83 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for order in orders %}
-				<tr>
+			{% for id, order in orders %}
+				<tr class="cursor-pointer" id="table_row_{{ id }}" onClick="myFunction({{id}})">
 					<td class="text-center">{{ order.id }}</td>
 					<td>{{ order.customer.id }}</td>
 					<td>{{ order.customer.userProfile.userName }}</td>
 					<td>{{ order.customer.userProfile.address }}, {{ order.customer.userProfile.country }}</td>
 					<td>{{ order.customer.userProfile.phone }}</td>
 					<td>{{ order.comment }}</td>
-					<td>{{ order.status }}</td>
-					<td>{{ order.createdAt|date("m/d/Y") }}</td>
-					<td>{{ order.orderedItems.0.quantity * order.orderedItems.0.pricePerPiece }}</td>
+					<td class="text-center">{{ order.status }}</td>
+					<td class="text-center">{{ order.createdAt|date("m/d/Y") }}</td>
+
+					{# Counting total price for order #}
+					<td class="text-right" style="background-color:yellow;">
+						{% set totalPrice = 0 %}
+						{% for item in order.orderedItems %}
+							{% set numOfAticles = item|length - 1 %}
+							{% set totalPrice = totalPrice + item.quantity * item.pricePerPiece %}
+						{% endfor %}
+						{{totalPrice}} din.
+					</td>
+
 					<td class="table_edit_btn">
 						<a href="{{ path('app_edit_order', {order: order.id} ) }}" class="block">EDIT</a>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="10" id="subtable{{ id }}" class="hidden">
+						<table class="nested_table" style="width:90%; position:relative; left:10%;">
+							<tr>
+								<th>P ID</th>
+								<th>Product Name</th>
+								<th>Price</th>
+								<th>Quantity</th>
+								<th>Total</th>
+								<th>Created</th>
+								<th>Last Change</th>
+							</tr>
+							{% for item in order.orderedItems %}
+								<tr>
+									<td class="text-right">{{ item.product.id }}</td>
+									<td>{{ item.product.name }}</td>
+									<td class="text-right">{{ item.pricePerPiece }} din.</td>
+									<td class="text-center">{{ item.quantity }}</td>
+									<td class="text-right">{{ item.quantity * item.pricePerPiece }} din.</td>
+									<td class="text-center">{{ item.createdAt|date("m/d/Y") }}</td>
+									<td class="text-center">
+										{% if item.updatedAt == null %}
+											/
+										{% else %}
+											{{ item.updatedAt|date("m/d/Y") }}
+										{% endif %}
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
 					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
+
+	{# <script>
+		alert('hello');
+		- klikom na td tag dobiti njegov id
+		- odrezati id sa stringa
+		- napraviti genericki string naziva klase
+		- na genericki string naziva klase dodati odrezani id
+		- sada oristupiti toggle (show/hide) pisanju skripte
+	</script> #}
+	<script>
+		function myFunction(id) {
+let pera = id + "nekitekst";
+		  	let subtable = "subtable" + id;
+			let element = document.getElementById(subtable);
+	    	element.classList.toggle("hidden");
+
+			{# alert(element); #}
+		}
+	</script>
 {% endblock %}

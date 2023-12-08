@@ -57,6 +57,7 @@ class AdministratorController extends AbstractController
     public function orders(OrderRepository $orderRepository): Response
     {
         $orders = $orderRepository->allOrdersWithFullCustomerDetails();
+        // dd($orders);
         $currentUser = $this->getUser();
 
         // foreach ($orders as $key => $value) {

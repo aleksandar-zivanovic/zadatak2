@@ -66,6 +66,10 @@ h1 {
     @apply hover:bg-gray-200;
 }
 
+.table td {
+    /* @apply hover:cursor-pointer; */
+}
+
 .table_edit_th {
     @apply !bg-green-600 text-white;
 }
@@ -80,6 +84,14 @@ h1 {
 
 .table_edit_btn {
     @apply bg-[lightgreen] hover:bg-green-100 text-center;
+}
+
+.table .nested_table th {
+    @apply bg-[coral] hover:cursor-auto;
+}
+
+.table .nested_table td {
+    @apply bg-slate-100 hover:cursor-auto;
 }
 
 .flashes > div {
