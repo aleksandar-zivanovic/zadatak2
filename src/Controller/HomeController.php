@@ -5,6 +5,12 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\User;
+use App\Form\EditUserType;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class HomeController extends AbstractController
 {
@@ -36,5 +42,32 @@ class HomeController extends AbstractController
         } elseif(in_array('ROLE_CLIENT', $currentUser->getRoles())) {
             return $this->redirectToRoute('app_client');
         }
+    }
+
+    #[Route('/edit-user/{id}', name: 'app_edit_user')]
+    #[IsGranted('IS_AUTHENTICATED')]
+    public function editUser($id, EntityManagerInterface $entityManager, Request $request): Response|AccessDeniedException
+    {
+        $currentUser = $this->getUser();
+        if (!in_array(haystack:$currentUser->getRoles(), needle:"ROLE_ADMIN") && $currentUser->getId() != $id) {
+            throw new AccessDeniedException();
+        }
+        
+        $user = $entityManager->getRepository(User::class)->find($id);
+        $form = $this->createForm(EditUserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('userEdited', 'User details are updated!');
+            
+            return $this->redirectToRoute('app_role_page');
+        }
+
+        return $this->render('administrator/edit_user.html.twig', [
+            'form' => $form,
+        ]);
     }
 }

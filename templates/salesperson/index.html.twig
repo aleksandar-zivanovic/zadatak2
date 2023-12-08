@@ -1,9 +1,44 @@
-{% include "base.html.twig" %}
+{% extends "base.html.twig" %}
+
+{% set pageName = "Sales Person's Panel Page" %}
+
+{% block title %} {{ pageName }} {% endblock %}
 
 {% block body %}
-    <h1>SalesParson's Page</h1>
+    {% include "salesperson/_salesperson_navigation.html.twig" with { pageName: pageName } %}
 
-    <div><a href="">Sales</a></div>
-    
-    {% include "home/_user_role_welcome.html.twig" %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Address</th>
+                <th>Country</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.email }}</td>
+                    <td class="text-right">{{ user.id }}</td>
+                    <td>{{ user.user_name }}</td>
+                    <td>
+                    {% if "ROLE_CLIENT" in user.roles %}
+                        Client
+                    {% else %}
+                        <span style="background-color:red;">ERROR - report to an admin!</span>
+                    {% endif %}
+                    
+                    </td>
+                    <td>{{ user.address }}</td>
+                    <td>{{ user.country }}</td>
+                    <td>{{ user.phone }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}

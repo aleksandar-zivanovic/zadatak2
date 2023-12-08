@@ -57,12 +57,7 @@ class AdministratorController extends AbstractController
     public function orders(OrderRepository $orderRepository): Response
     {
         $orders = $orderRepository->allOrdersWithFullCustomerDetails();
-        // dd($orders);
         $currentUser = $this->getUser();
-
-        // foreach ($orders as $key => $value) {
-        //     dd($value->orderedItems[0]->quantity);
-        // }
 
         return $this->render('administrator/orders_administration.html.twig', [
             'orders' => $orders,
@@ -116,27 +111,6 @@ class AdministratorController extends AbstractController
         $this->addFlash('deletedUser', 'Delete user with ID '.  $id);
 
         return $this->redirectToRoute('app_administrator');
-    }
-
-    #[Route('/edit-user/{id}', name: 'app_edit_user')]
-    public function editUser($id, EntityManagerInterface $entityManager, Request $request): Response
-    {
-
-        $user = $entityManager->getRepository(User::class)->find($id);
-        $form = $this->createForm(EditUserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-            $entityManager->persist($user);
-            $entityManager->flush();
-            $this->addFlash('userEdited', 'User details are updated!');
-            return $this->redirectToRoute('app_administrator');
-        }
-
-        return $this->render('administrator/edit_user.html.twig', [
-            'form' => $form,
-        ]);
     }
 
     #[Route('/edit-profile/{id}', name: 'app_edit_user_profile')]
