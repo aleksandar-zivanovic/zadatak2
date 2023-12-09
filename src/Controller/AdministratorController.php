@@ -3,12 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Order;
-use App\Entity\OrderedItem;
 use App\Entity\Product;
-use App\Entity\User;
-use App\Entity\UserProfile;
-use App\Form\EditUserType;
-use App\Form\ProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -65,8 +60,6 @@ class AdministratorController extends AbstractController
         ]);
     }
 
-
-
     #[Route('/administrator/orders/{id}', name: 'app_administrator_order_details')]
     public function orderDetails(
         $id, 
@@ -111,27 +104,6 @@ class AdministratorController extends AbstractController
         $this->addFlash('deletedUser', 'Delete user with ID '.  $id);
 
         return $this->redirectToRoute('app_administrator');
-    }
-
-    #[Route('/edit-profile/{id}', name: 'app_edit_user_profile')]
-    public function editProfile($id, EntityManagerInterface $entityManager, Request $request): Response
-    {
-        $user = $entityManager->find(User::class, $id);
-        $userProfile = $user->getUserProfile();
-        $form = $this->createForm(ProfileType::class, $userProfile);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userProfile = $form->getData();
-            $entityManager->persist($userProfile);
-            $entityManager->flush();
-            $this->addFlash('userProfileEdited', 'User secondary information is edited!');
-            return $this->redirectToRoute('app_administrator');
-        }
-
-        return $this->render('administrator/edit_user.html.twig', [
-            'form' => $form,
-        ]);
     }
 
     #[Route('/edit-product/{product}', name: 'app_edit_product')]
