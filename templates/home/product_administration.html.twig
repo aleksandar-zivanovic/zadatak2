@@ -17,7 +17,9 @@
 				<th>Category</th>
 				<th>Unit</th>
 				<th>Price</th>
-				<th class="table_edit_th">EDIT</th>
+				{% if is_granted('ROLE_ADMIN') %}
+					<th class="table_edit_th">EDIT</th>
+				{% endif %}
 			</tr>
 		</thead>
 		<tbody>
@@ -28,9 +30,11 @@
 					<td>{{ product.category }}</td>
 					<td>{{ product.unit }}</td>
 					<td>{{ product.price }}</td>
-					<td class="table_edit_btn">
+					{% if is_granted('ROLE_ADMIN') %}
+						<td class="table_edit_btn">
 						<a href="{{ path('app_edit_product', {product: product.id} ) }}" class="block">EDIT</a>
 					</td>
+					{% endif %}
 				</tr>
 			{% endfor %}
 		</tbody>

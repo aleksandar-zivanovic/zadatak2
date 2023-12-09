@@ -11,6 +11,7 @@ use App\Entity\User;
 use App\Form\EditUserType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Repository\ProductRepository;
 
 class HomeController extends AbstractController
 {
@@ -68,6 +69,22 @@ class HomeController extends AbstractController
 
         return $this->render('administrator/edit_user.html.twig', [
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/home/products', name: 'app_home_products')]
+    public function products(ProductRepository $productRepository): Response
+    {
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_SALESPERSON')) {
+            throw new AccessDeniedException();
+        }
+
+        $products = $productRepository->findAll();
+        $currentUser = $this->getUser();
+
+        return $this->render('home/product_administration.html.twig', [
+            'products' => $products,
+            'currentUser' => $currentUser,
         ]);
     }
 }

@@ -82,18 +82,6 @@ class AdministratorController extends AbstractController
         ]);
     }
 
-    #[Route('/administrator/products', name: 'app_administrator_products')]
-    public function products(ProductRepository $productRepository): Response
-    {
-        $products = $productRepository->findAll();
-        $currentUser = $this->getUser();
-
-        return $this->render('administrator/product_administration.html.twig', [
-            'products' => $products,
-            'currentUser' => $currentUser,
-        ]);
-    }
-
     #[Route('/delete-user/{id}', methods: ['GET', 'DELETE'], name: 'app_delete_user')]
     public function deleteUser($id, EntityManagerInterface $em, UserRepository $userRepository): RedirectResponse
     {
