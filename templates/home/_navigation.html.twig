@@ -1,0 +1,25 @@
+<header>
+	<h1>{{ pageName }}</h1>
+	<div class="admin_nav_wrapper">
+	{% if is_granted('ROLE_ADMIN') %}
+		<a class="admin_nav" href="{{ path('app_administrator') }}">Users</a>
+		<a class="admin_nav" href="{{ path('app_home_products') }}">Products</a>
+		<a class="admin_nav" href="{{ path('app_administrator_orders') }}">Orders</a>
+		<a class="admin_nav" href="{{ path('app_edit_user', {id:currentUser.id}) }}">Edit Your Account details</a>
+	{% endif %}
+
+	{% if is_granted('ROLE_SALESPERSON') and not is_granted('ROLE_ADMIN') %}
+		<a class="admin_nav" href="{{ path('app_salesperson') }}">Users</a>
+		<a class="admin_nav" href="{{ path('app_home_products') }}">Products</a>
+		<a class="admin_nav" href="{{ path('app_administrator_orders') }}">Orders</a>
+		<a class="admin_nav" href="{{ path('app_edit_user', {id:currentUser.id}) }}">Edit Your Account details</a>
+	{% endif %}
+		
+	</div>
+
+	{% include "home/_user_role_welcome.html.twig" %}
+
+	{% if is_granted('ROLE_ADMIN') %}
+		{% include "administrator/_flashes.html.twig" %}
+	{% endif %}
+</header>
