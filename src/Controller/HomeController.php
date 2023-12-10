@@ -96,7 +96,7 @@ class HomeController extends AbstractController
         $orders = $orderRepository->allOrdersWithFullCustomerDetails();
         $currentUser = $this->getUser();
 
-        return $this->render('administrator/orders_administration.html.twig', [
+        return $this->render('home/orders_list.html.twig', [
             'orders' => $orders,
             'currentUser' => $currentUser,
         ]);
@@ -117,7 +117,7 @@ class HomeController extends AbstractController
 
         // $orders = $orderRepository->allOrdersWithFullCustomerDetails();
         $currentUser = $this->getUser();
-        return $this->render('administrator/order_details_administration.html.twig', [
+        return $this->render('home/order_details.html.twig', [
             // 'order' => $order,
             // 'orders' => $orders,
             'currentUser' => $currentUser,

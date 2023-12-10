@@ -30,7 +30,9 @@
 				<th>Status</th>
 				<th>Created at</th>
 				<th>Total</th>
-				<th class="table_edit_th">EDIT</th>
+				{% if is_granted('ROLE_ADMIN') %}
+					<th class="table_edit_th">EDIT</th>
+				{% endif %}
 			</tr>
 		</thead>
 		<tbody>
@@ -55,9 +57,11 @@
 						{{totalPrice}} din.
 					</td>
 
-					<td class="table_edit_btn">
-						<a href="{{ path('app_edit_order', {order: order.id} ) }}" class="block">EDIT</a>
-					</td>
+					{% if is_granted('ROLE_ADMIN') %}
+						<td class="table_edit_btn">
+							<a href="{{ path('app_edit_order', {order: order.id} ) }}" class="block">EDIT</a>
+						</td>
+					{% endif %}
 				</tr>
 				<tr>
 					<td colspan="10" id="subtable{{ id }}" class="hidden">
