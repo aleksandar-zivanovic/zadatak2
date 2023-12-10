@@ -12,8 +12,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\EditProductType;
-use App\Repository\OrderRepository;
-use App\Repository\ProductRepository;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_ADMIN')]
@@ -48,39 +46,7 @@ class AdministratorController extends AbstractController
         ]);
     }
 
-    #[Route('/administrator/orders', name: 'app_administrator_orders')]
-    public function orders(OrderRepository $orderRepository): Response
-    {
-        $orders = $orderRepository->allOrdersWithFullCustomerDetails();
-        $currentUser = $this->getUser();
-
-        return $this->render('administrator/orders_administration.html.twig', [
-            'orders' => $orders,
-            'currentUser' => $currentUser,
-        ]);
-    }
-
-    #[Route('/administrator/orders/{id}', name: 'app_administrator_order_details')]
-    public function orderDetails(
-        $id, 
-        OrderRepository $orderRepository,
-        EntityManagerInterface $entityManager
-        ): Response
-    {
-        $order = $orderRepository->find(1);
-        dd($order);
-
-        // $orderDetails = $entityManager->getRepository(Order::class)->find(1);
-        // dd($id);
-
-        // $orders = $orderRepository->allOrdersWithFullCustomerDetails();
-        $currentUser = $this->getUser();
-        return $this->render('administrator/order_details_administration.html.twig', [
-            // 'order' => $order,
-            // 'orders' => $orders,
-            'currentUser' => $currentUser,
-        ]);
-    }
+    
 
     #[Route('/delete-user/{id}', methods: ['GET', 'DELETE'], name: 'app_delete_user')]
     public function deleteUser($id, EntityManagerInterface $em, UserRepository $userRepository): RedirectResponse

@@ -12,6 +12,7 @@ use App\Form\EditUserType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Repository\ProductRepository;
+use App\Repository\OrderRepository;
 
 class HomeController extends AbstractController
 {
@@ -84,6 +85,41 @@ class HomeController extends AbstractController
 
         return $this->render('home/product_administration.html.twig', [
             'products' => $products,
+            'currentUser' => $currentUser,
+        ]);
+    }
+
+    #[Route('/home/orders', name: 'app_home_orders')]
+    #[IsGranted('ROLE_SALESPERSON')]
+    public function orders(OrderRepository $orderRepository): Response
+    {
+        $orders = $orderRepository->allOrdersWithFullCustomerDetails();
+        $currentUser = $this->getUser();
+
+        return $this->render('administrator/orders_administration.html.twig', [
+            'orders' => $orders,
+            'currentUser' => $currentUser,
+        ]);
+    }
+
+    #[Route('/administrator/orders/{id}', name: 'app_administrator_order_details')]
+    public function orderDetails(
+        $id, 
+        OrderRepository $orderRepository,
+        EntityManagerInterface $entityManager
+        ): Response
+    {
+        $order = $orderRepository->find(1);
+        dd($order);
+
+        // $orderDetails = $entityManager->getRepository(Order::class)->find(1);
+        // dd($id);
+
+        // $orders = $orderRepository->allOrdersWithFullCustomerDetails();
+        $currentUser = $this->getUser();
+        return $this->render('administrator/order_details_administration.html.twig', [
+            // 'order' => $order,
+            // 'orders' => $orders,
             'currentUser' => $currentUser,
         ]);
     }
