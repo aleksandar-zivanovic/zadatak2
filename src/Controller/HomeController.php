@@ -90,11 +90,20 @@ class HomeController extends AbstractController
     }
 
     #[Route('/home/orders', name: 'app_home_orders')]
-    #[IsGranted('ROLE_SALESPERSON')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function orders(OrderRepository $orderRepository): Response
     {
-        $orders = $orderRepository->allOrdersWithFullCustomerDetails();
         $currentUser = $this->getUser();
+
+        // if user is ROLE_ADMIN or ROLE_SALESPERSON
+        if ($this->isGranted('ROLE_SALESPERSON')) {
+            $orders = $orderRepository->allOrdersWithFullCustomerDetails();
+        }
+
+        // if user is ROLE_CLIENT and not ROLE_ADMIN or ROLE_SALESPERSON
+        if ($this->isGranted('ROLE_CLIENT')) {
+            $orders = $orderRepository->findBy(['customer' => $currentUser->getId()]);
+        }
 
         return $this->render('home/orders_list.html.twig', [
             'orders' => $orders,
