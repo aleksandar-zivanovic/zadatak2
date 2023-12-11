@@ -1,6 +1,8 @@
-{% include "base.html.twig" %}
+{% extends "base.html.twig" %}
 
-{% set pageName = "Client's Panel Page" %}
+{% set pageName = "Client's Account" %}
+
+{% block title %} {{ pageName }} {% endblock %}
 
 {% block body %}
     {% include "home/_navigation.html.twig" with { pageName: pageName } %}
@@ -11,26 +13,21 @@
                 <th>Email</th>
                 <th>ID</th>
                 <th>Username</th>
-                <th>Role</th>
                 <th>Address</th>
                 <th>Country</th>
                 <th>Phone</th>
-                <th class="table_edit_th">EDIT</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>{{ user.email }}</td>
-                <td>{{ user.id }}</td>
-                <td>{{ user.roles.0 }}</td>
-                <td>{{ user.userprofile.username }}</td>
-                <td>{{ user.userprofile.address }}</td>
-                <td>{{ user.userprofile.country }}</td>
-                <td>{{ user.userprofile.phone }}</td>
-                <td class="table_edit_btn">
-                    <a href="{{ path('app_edit_user', {id: user.id} ) }}" class="block">EDIT</a>
-                </td>
-            </tr>
+                <tr class="text-center">
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.userprofile.username }}</td>
+                    <td>{{ user.userprofile.address }}</td>
+                    <td>{{ user.userprofile.country }}</td>
+                    <td>{{ user.userprofile.phone }}</td>
+                </tr>
         </tbody>
     </table>
+
 {% endblock %}

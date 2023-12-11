@@ -13,13 +13,10 @@
 		{% endif %}
 
 		{% if is_granted('ROLE_CLIENT') and not is_granted('ROLE_SALESPERSON') %}
+			<a class="admin_nav" href="{{ path('app_client') }}">My Profile</a>
 			<a class="admin_nav" href="{{ path('app_home_orders') }}">My Orders</a>
 		{% endif %}
 	</div>
 
 	{% include "home/_user_role_welcome.html.twig" %}
-
-	{% if is_granted('ROLE_ADMIN') %}
-		{% include "administrator/_flashes.html.twig" %}
-	{% endif %}
 </header>

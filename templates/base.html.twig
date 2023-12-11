@@ -28,7 +28,13 @@
 				</li>
 				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 					<li class="navigation_link">
-						<a href="{{ path('app_role_page') }}">Administration</a>
+						<a href="{{ path('app_role_page') }}">
+							{% if is_granted('ROLE_SALESPERSON') %}
+								Administration
+							{% else %}
+								My Account
+							{% endif %}
+						</a>
 					</li>
 					<li class="navigation_link">
 						<a href="{{ path('app_logout') }}">Logout</a>
