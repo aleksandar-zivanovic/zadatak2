@@ -13,9 +13,11 @@ class ClientController extends AbstractController
     #[Route('/client', name: 'app_client')]
     public function index(): Response
     {
+        $currentUser = $this->getUser();
         $user = $this->getUser();
         return $this->render('client/index.html.twig', [
             'user' => $user,
+            'currentUser' => $currentUser,
         ]);
     }
 }

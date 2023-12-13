@@ -9,11 +9,13 @@
         {{ form_label(form.email, 'Email address:', {'label_attr': {'class': 'form_label'}}) }}
         {{ form_widget(form.email, {'attr': {'class': 'form_text'}}) }}
 
-        {{ form_label(form.roles, 'Role:', {'label_attr': {'class':'form_label'}}) }}
-        {{ form_widget(form.roles, {'attr': {'class': 'form_text'}}) }}
-
-        {{ form_label(form.isVerified, 'Verified:', {'label_attr': {'class':'mr-2'}}) }}
-        {{ form_widget(form.isVerified) }}
+        {% if is_granted('ROLE_ADMIN') %}
+            {{ form_label(form.roles, 'Role:', {'label_attr': {'class':'form_label'}}) }}
+            {{ form_widget(form.roles, {'attr': {'class': 'form_text'}}) }}
+        
+            {{ form_label(form.isVerified, 'Verified:', {'label_attr': {'class':'mr-2'}}) }}
+            {{ form_widget(form.isVerified) }}
+        {% endif %}
 
         {{ form_label(form.userProfile.userName, 'User name:', {'label_attr': {'class':'form_label'}}) }}
         {{ form_widget(form.userProfile.userName, {'attr': {'class': 'form_text'}}) }}

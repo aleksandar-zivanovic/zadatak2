@@ -9,12 +9,15 @@
 			{% endif %}
 			<a class="admin_nav" href="{{ path('app_home_products') }}">Products</a>
 			<a class="admin_nav" href="{{ path('app_home_orders') }}">Orders</a>
-			<a class="admin_nav" href="{{ path('app_edit_user', {id:currentUser.id}) }}">Edit Your Account details</a>
 		{% endif %}
 
 		{% if is_granted('ROLE_CLIENT') and not is_granted('ROLE_SALESPERSON') %}
 			<a class="admin_nav" href="{{ path('app_client') }}">My Profile</a>
 			<a class="admin_nav" href="{{ path('app_home_orders') }}">My Orders</a>
+		{% endif %}
+
+		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			<a class="admin_nav" href="{{ path('app_edit_user', {id:currentUser.id}) }}">Edit Your Account Details</a>
 		{% endif %}
 	</div>
 
