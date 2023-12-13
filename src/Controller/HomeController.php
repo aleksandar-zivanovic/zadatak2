@@ -101,8 +101,8 @@ class HomeController extends AbstractController
         }
 
         // if user is ROLE_CLIENT and not ROLE_ADMIN or ROLE_SALESPERSON
-        if ($this->isGranted('ROLE_CLIENT')) {
-            $orders = $orderRepository->findBy(['customer' => $currentUser->getId()]);
+        if ($this->isGranted('ROLE_CLIENT') AND !$this->isGranted('ROLE_SALESPERSON')) {
+            $orders = $orderRepository->allOrdersFromSingleCustomer($currentUser->getId());
         }
 
         return $this->render('home/orders_list.html.twig', [

@@ -22,16 +22,39 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     // all orders with their customers and customer profile details
-       public function allOrdersWithFullCustomerDetails(): array
-   {
-       return $this->createQueryBuilder('o')
-           ->select('o', 'u', 'up', 'oi')
-           ->leftJoin('o.customer', 'u')
-           ->leftJoin('u.userProfile', 'up')
-           ->join('o.orderedItems', 'oi')
+    public function allOrdersWithFullCustomerDetails(): array
+    {
+        return $this->createQueryBuilder('o')
+        ->select('o', 'u', 'up', 'oi')
+        ->leftJoin('o.customer', 'u')
+        ->leftJoin('u.userProfile', 'up')
+        ->join('o.orderedItems', 'oi')
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function ordersIdsFromACustomer(int $id): array
+    {
+        return $this->createQueryBuilder('o')
+        ->select('o.id')
+        ->where('o.customer = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getScalarResult();
+    }
+
+    // all Orders for a single customer with the User and Product details
+    public function allOrdersFromSingleCustomer(int $id): array
+    {
+        return $this->createQueryBuilder('o')
+           ->select('o', 'oi', 'p')
+           ->leftjoin('o.orderedItems', 'oi')
+           ->leftJoin('oi.product', 'p')
+           ->where('o.customer = :id')
+           ->setParameter('id', $id)
            ->getQuery()
            ->getResult();
-   }
+    }
 
 //    /**
 //     * @return Order[] Returns an array of Order objects
