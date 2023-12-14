@@ -132,4 +132,12 @@ class HomeController extends AbstractController
             'currentUser' => $currentUser,
         ]);
     }
+
+    #[Route('/delete-order/{id}', name: 'app_delete_order')]
+    #[IsGranted('IS_AUTHENTICATED')]
+    public function deleteOrder($id, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        echo "PERA";
+        return $this->redirectToRoute('app_home_orders');
+    }
 }

@@ -30,8 +30,9 @@
 				<th>Status</th>
 				<th>Created at</th>
 				<th>Total</th>
-				{% if is_granted('ROLE_ADMIN') %}
+				{% if is_granted('ROLE_ADMIN', 'ROLE_CLIENT')%}
 					<th class="table_edit_th">EDIT</th>
+					<th class="table_edit_th">DELETE</th>
 				{% endif %}
 			</tr>
 		</thead>
@@ -57,14 +58,17 @@
 						{{totalPrice}} din.
 					</td>
 
-					{% if is_granted('ROLE_ADMIN') %}
-						<td class="table_edit_btn">
+					{% if is_granted('ROLE_ADMIN', 'ROLE_CLIENT')%}
+						<td class="table_edit_btn" onclick=event.stopPropagation()>
 							<a href="{{ path('app_edit_order', {order: order.id} ) }}" class="block">EDIT</a>
+						</td>
+						<td class="table_edit_btn"  onclick=event.stopPropagation()>
+							<a href="{{ path('app_delete_order', {id: order.id}) }}" class="block">DELETE</a>
 						</td>
 					{% endif %}
 				</tr>
 				<tr>
-					<td colspan="10" id="subtable{{ id }}" class="hidden">
+					<td colspan="11" id="subtable{{ id }}" class="hidden">
 						<table class="nested_table" style="width:90%; position:relative; left:10%;">
 							<tr>
 								<th>P ID</th>
@@ -99,22 +103,13 @@
 		</tbody>
 	</table>
 
-	{# <script>
-		alert('hello');
-		- klikom na td tag dobiti njegov id
-		- odrezati id sa stringa
-		- napraviti genericki string naziva klase
-		- na genericki string naziva klase dodati odrezani id
-		- sada oristupiti toggle (show/hide) pisanju skripte
-	</script> #}
 	<script>
 		function myFunction(id) {
-let pera = id + "nekitekst";
 		  	let subtable = "subtable" + id;
 			let element = document.getElementById(subtable);
 	    	element.classList.toggle("hidden");
 
-			{# alert(element); #}
+			console.log(element);
 		}
 	</script>
 {% endblock %}
