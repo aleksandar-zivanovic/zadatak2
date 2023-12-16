@@ -18,90 +18,98 @@
 		nije ta strana!
 	{% endif %} #}
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>C. ID</th>
-				<th>C. Name</th>
-				<th>C. Address</th>
-				<th>C. Phone</th>
-				<th>Comment</th>
-				<th>Status</th>
-				<th>Created at</th>
-				<th>Total</th>
-				{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CLIENT') and not is_granted('ROLE_SALESPERSON')%}
-					<th class="table_edit_th">EDIT</th>
-					<th class="table_delete_th">DELETE</th>
-				{% endif %}
-			</tr>
-		</thead>
-		<tbody>
-			{% for id, order in orders %}
-				<tr class="cursor-pointer" id="table_row_{{ id }}" onClick="myFunction({{id}})">
-					<td class="text-center">{{ order.id }}</td>
-					<td>{{ order.customer.id }}</td>
-					<td>{{ order.customer.userProfile.userName }}</td>
-					<td>{{ order.customer.userProfile.address }}, {{ order.customer.userProfile.country }}</td>
-					<td>{{ order.customer.userProfile.phone }}</td>
-					<td>{{ order.comment }}</td>
-					<td class="text-center">{{ order.status }}</td>
-					<td class="text-center">{{ order.createdAt|date("m/d/Y") }}</td>
-
-					{# Counting total price for order #}
-					<td class="text-right" style="background-color:yellow;">
-						{% set totalPrice = 0 %}
-						{% for item in order.orderedItems %}
-							{% set numOfAticles = item|length - 1 %}
-							{% set totalPrice = totalPrice + item.quantity * item.pricePerPiece %}
-						{% endfor %}
-						{{totalPrice}} din.
-					</td>
-
+	{% if orders %}
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>C. ID</th>
+					<th>C. Name</th>
+					<th>C. Address</th>
+					<th>C. Phone</th>
+					<th>Comment</th>
+					<th>Status</th>
+					<th>Created at</th>
+					<th>Total</th>
 					{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CLIENT') and not is_granted('ROLE_SALESPERSON')%}
-						<td class="table_edit_btn" onclick=event.stopPropagation()>
-							<a href="{{ path('app_edit_order', {order: order.id} ) }}" class="block">EDIT</a>
-						</td>
-						<td class="table_delete_btn"  onclick=event.stopPropagation()>
-							<a href="{{ path('app_delete_order', {id: order.id}) }}" class="block">DELETE</a>
-						</td>
+						<th class="table_edit_th">EDIT</th>
+						<th class="table_delete_th">DELETE</th>
 					{% endif %}
 				</tr>
-				<tr>
-					<td colspan="11" id="subtable{{ id }}" class="hidden">
-						<table class="nested_table" style="width:90%; position:relative; left:10%;">
-							<tr>
-								<th>P ID</th>
-								<th>Product Name</th>
-								<th>Price</th>
-								<th>Quantity</th>
-								<th>Total</th>
-								<th>Created</th>
-								<th>Last Change</th>
-							</tr>
+			</thead>
+			<tbody>
+				{% for id, order in orders %}
+					<tr class="cursor-pointer" id="table_row_{{ id }}" onClick="myFunction({{id}})">
+						<td class="text-center">{{ order.id }}</td>
+						<td>{{ order.customer.id }}</td>
+						<td>{{ order.customer.userProfile.userName }}</td>
+						<td>{{ order.customer.userProfile.address }}, {{ order.customer.userProfile.country }}</td>
+						<td>{{ order.customer.userProfile.phone }}</td>
+						<td>{{ order.comment }}</td>
+						<td class="text-center">{{ order.status }}</td>
+						<td class="text-center">{{ order.createdAt|date("m/d/Y") }}</td>
+
+						{# Counting total price for order #}
+						<td class="text-right" style="background-color:yellow;">
+							{% set totalPrice = 0 %}
 							{% for item in order.orderedItems %}
-								<tr>
-									<td class="text-right">{{ item.product.id }}</td>
-									<td>{{ item.product.name }}</td>
-									<td class="text-right">{{ item.pricePerPiece }} din.</td>
-									<td class="text-center">{{ item.quantity }}</td>
-									<td class="text-right">{{ item.quantity * item.pricePerPiece }} din.</td>
-									<td class="text-center">{{ item.createdAt|date("m/d/Y") }}</td>
-									<td class="text-center">
-										{% if item.updatedAt == null %}
-											/
-										{% else %}
-											{{ item.updatedAt|date("m/d/Y") }}
-										{% endif %}
-									</td>
-								</tr>
+								{% set numOfAticles = item|length - 1 %}
+								{% set totalPrice = totalPrice + item.quantity * item.pricePerPiece %}
 							{% endfor %}
-						</table>
-					</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+							{{totalPrice}} din.
+						</td>
+
+						{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CLIENT') and not is_granted('ROLE_SALESPERSON')%}
+							<td class="table_edit_btn" onclick=event.stopPropagation()>
+								<a href="{{ path('app_edit_order', {order: order.id} ) }}" class="block">EDIT</a>
+							</td>
+							<td class="table_delete_btn"  onclick=event.stopPropagation()>
+								<a href="{{ path('app_delete_order', {id: order.id}) }}" class="block">DELETE</a>
+							</td>
+						{% endif %}
+					</tr>
+					<tr>
+						<td colspan="11" id="subtable{{ id }}" class="hidden">
+							<table class="nested_table" style="width:90%; position:relative; left:10%;">
+								<tr>
+									<th>P ID</th>
+									<th>Product Name</th>
+									<th>Price</th>
+									<th>Quantity</th>
+									<th>Total</th>
+									<th>Created</th>
+									<th>Last Change</th>
+								</tr>
+								{% for item in order.orderedItems %}
+									<tr>
+										<td class="text-right">{{ item.product.id }}</td>
+										<td>{{ item.product.name }}</td>
+										<td class="text-right">{{ item.pricePerPiece }} din.</td>
+										<td class="text-center">{{ item.quantity }}</td>
+										<td class="text-right">{{ item.quantity * item.pricePerPiece }} din.</td>
+										<td class="text-center">{{ item.createdAt|date("m/d/Y") }}</td>
+										<td class="text-center">
+											{% if item.updatedAt == null %}
+												/
+											{% else %}
+												{{ item.updatedAt|date("m/d/Y") }}
+											{% endif %}
+										</td>
+									</tr>
+								{% endfor %}
+							</table>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	{% else %}
+		<div>
+			<hr>
+			<h1 class="no_orders">THERE ARE NO ORDERS YET !!!</h1>
+		</div>
+	{% endif %}
 
 	<script>
 		function myFunction(id) {

@@ -118,3 +118,7 @@ h1 {
 .delete_btn:hover {
     @apply !bg-slate-300 border-red-600 text-red-800;
 }
+
+.no_orders {
+    @apply text-center mt-6 p-2;
+}

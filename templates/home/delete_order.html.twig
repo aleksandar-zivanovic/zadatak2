@@ -85,12 +85,8 @@
     <div class="admin_nav_wrapper">
 		{% if is_granted('ROLE_CLIENT') or is_granted('ROLE_ADMIN') and not is_granted('ROLE_SALESPERSON') %}
 			<a class="edit_btn" href="/">Edit Order</a>
-			<a class="delete_btn" href="/">Delete Order</a>
+			<a class="delete_btn" href="{{ path('app_delete_order_confirm', { id:orderid }) }}">Delete Order</a>
 		{% endif %}
-
-		{# {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-			<a class="admin_nav" href="{{ path('app_edit_user', {id:currentUser.id}) }}">Edit Your Account Details</a>
-		{% endif %} #}
 	</div>
 
 {% endblock %}

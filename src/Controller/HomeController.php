@@ -141,8 +141,19 @@ class HomeController extends AbstractController
         $order = $entityManager->getRepository(Order::class)->findOrderWithAllDetails($id);
         
         return $this->render('home/delete_order.html.twig', [
+            'orderid' => $id,
             'orders' => $order,
             'currentUser' => $this->getUser(),
         ]);
+    }
+
+    #[Route('/delete-order-confirmation/{id}', name: 'app_delete_order_confirm')]
+    #[IsGranted('IS_AUTHENTICATED')]
+    public function deleteOrderConfirmation(Order $order, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($order);
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('app_home_orders');
     }
 }
