@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -135,9 +136,13 @@ class HomeController extends AbstractController
 
     #[Route('/delete-order/{id}', name: 'app_delete_order')]
     #[IsGranted('IS_AUTHENTICATED')]
-    public function deleteOrder($id, EntityManagerInterface $entityManager, Request $request): Response
+    public function deleteOrder($id, EntityManagerInterface $entityManager): Response
     {
-        echo "PERA";
-        return $this->redirectToRoute('app_home_orders');
+        $order = $entityManager->getRepository(Order::class)->findOrderWithAllDetails($id);
+        
+        return $this->render('home/delete_order.html.twig', [
+            'orders' => $order,
+            'currentUser' => $this->getUser(),
+        ]);
     }
 }

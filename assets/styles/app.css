@@ -66,9 +66,6 @@ h1 {
     @apply hover:bg-gray-200;
 }
 
-.table td {
-    /* @apply hover:cursor-pointer; */
-}
 
 .table_edit_th {
     @apply !bg-green-600 text-white;
@@ -104,4 +101,20 @@ h1 {
 
 .admin_nav {
     @apply bg-purple-400 rounded-lg border-2 py-1 px-10 mx-2 my-3 hover:bg-purple-200 hover:border-purple-700;
+}
+
+.edit_btn {
+    @apply admin_nav !bg-green-600 text-white;
+}
+
+.edit_btn:hover {
+    @apply !bg-white text-green-600 border-green-300;
+}
+
+.delete_btn {
+    @apply admin_nav !bg-red-600 text-white;
+}
+
+.delete_btn:hover {
+    @apply !bg-slate-300 border-red-600 text-red-800;
 }

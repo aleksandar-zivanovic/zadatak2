@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% set pageName = "Orders Page" %}
+{% set pageName = "Delete an Order Page" %}
 
 {% block title %}
 	{{ pageName }}
@@ -8,16 +8,7 @@
 
 {% block body %}
 	{% include "home/_navigation.html.twig" with { pageName: pageName } %}
-
-{# 
-	Dodati u base.html.twig kao opciju za ucitavanje razlicitih css i js fajlova, tako da kod moze da bude podeljen u vise vajlova, a ne sve u jedan 
-#}
-	{# {% if 'administrator/orders' in path(app.request.attributes.get('_route'))  %}
-		to je ta strana
-	{% else %}
-		nije ta strana!
-	{% endif %} #}
-
+    
 	<table class="table">
 		<thead>
 			<tr>
@@ -30,15 +21,11 @@
 				<th>Status</th>
 				<th>Created at</th>
 				<th>Total</th>
-				{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CLIENT') and not is_granted('ROLE_SALESPERSON')%}
-					<th class="table_edit_th">EDIT</th>
-					<th class="table_delete_th">DELETE</th>
-				{% endif %}
 			</tr>
 		</thead>
 		<tbody>
 			{% for id, order in orders %}
-				<tr class="cursor-pointer" id="table_row_{{ id }}" onClick="myFunction({{id}})">
+				<tr class="cursor-pointer"">
 					<td class="text-center">{{ order.id }}</td>
 					<td>{{ order.customer.id }}</td>
 					<td>{{ order.customer.userProfile.userName }}</td>
@@ -57,19 +44,10 @@
 						{% endfor %}
 						{{totalPrice}} din.
 					</td>
-
-					{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CLIENT') and not is_granted('ROLE_SALESPERSON')%}
-						<td class="table_edit_btn" onclick=event.stopPropagation()>
-							<a href="{{ path('app_edit_order', {order: order.id} ) }}" class="block">EDIT</a>
-						</td>
-						<td class="table_delete_btn"  onclick=event.stopPropagation()>
-							<a href="{{ path('app_delete_order', {id: order.id}) }}" class="block">DELETE</a>
-						</td>
-					{% endif %}
 				</tr>
 				<tr>
-					<td colspan="11" id="subtable{{ id }}" class="hidden">
-						<table class="nested_table" style="width:90%; position:relative; left:10%;">
+					<td colspan="9" id="subtable{{ id }}">
+						<table class="nested_table" style="width:100%; position:relative;">
 							<tr>
 								<th>P ID</th>
 								<th>Product Name</th>
@@ -103,13 +81,16 @@
 		</tbody>
 	</table>
 
-	<script>
-		function myFunction(id) {
-		  	let subtable = "subtable" + id;
-			let element = document.getElementById(subtable);
-	    	element.classList.toggle("hidden");
 
-			console.log(element);
-		}
-	</script>
+    <div class="admin_nav_wrapper">
+		{% if is_granted('ROLE_CLIENT') or is_granted('ROLE_ADMIN') and not is_granted('ROLE_SALESPERSON') %}
+			<a class="edit_btn" href="/">Edit Order</a>
+			<a class="delete_btn" href="/">Delete Order</a>
+		{% endif %}
+
+		{# {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			<a class="admin_nav" href="{{ path('app_edit_user', {id:currentUser.id}) }}">Edit Your Account Details</a>
+		{% endif %} #}
+	</div>
+
 {% endblock %}

@@ -59,6 +59,22 @@ class OrderRepository extends ServiceEntityRepository
 //    /**
 //     * @return Order[] Returns an array of Order objects
 //     */
+   public function findOrderWithAllDetails(int $id): array
+   {
+       return $this->createQueryBuilder('o')
+            ->select('o', 'oi', 'p')
+            ->leftjoin('o.orderedItems', 'oi')
+            ->leftJoin('oi.product', 'p')
+            ->andWhere('o.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getResult()
+       ;
+   }
+
+
+
+
 //    public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('o')
